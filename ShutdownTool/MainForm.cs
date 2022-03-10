@@ -37,6 +37,7 @@ namespace ShutdownTool
 
         int convertToTotalSec(string hour, string min, string sec)
         {
+            _totalTimeSec = 0;
             _totalTimeSec += 60 * 60 * Convert.ToInt32(hour);
             _totalTimeSec += 60 * Convert.ToInt32(min);
             _totalTimeSec += Convert.ToInt32(sec);
@@ -55,7 +56,6 @@ namespace ShutdownTool
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            _totalTimeSec = 0;
             if (!unitValueCheck(hourComboBox.Text, minComboBox.Text, secComboBox.Text))
             {
                 errorLabel.Text = "正しい値を入力してください";
@@ -63,6 +63,11 @@ namespace ShutdownTool
             }
             else errorLabel.Text = String.Empty;
             int totalSec = convertToTotalSec(hourComboBox.Text, minComboBox.Text, secComboBox.Text);
+            if(totalSec == 0)
+            {
+                DialogResult result = MessageBox.Show("直ちにシャットダウンしますか？","タイマーが0秒にセットされています",MessageBoxButtons.OKCancel);
+                if (result == DialogResult.Cancel) return;
+            }
             runProcess($"/s /t {totalSec}");
             countDownTimer.Start();
         }
