@@ -65,7 +65,7 @@ namespace ShutdownTool
             int totalSec = convertToTotalSec(hourComboBox.Text, minComboBox.Text, secComboBox.Text);
             if(totalSec == 0)
             {
-                DialogResult result = MessageBox.Show("直ちにシャットダウンしますか？","タイマーが0秒にセットされています",MessageBoxButtons.OKCancel);
+                DialogResult result = MessageBox.Show("直ちにシャットダウンしますか？","確認",MessageBoxButtons.OKCancel);
                 if (result == DialogResult.Cancel) return;
             }
             runProcess($"/s /t {totalSec}");
